@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.mentalhealthapp.model.mood.Mood;
 import com.example.mentalhealthapp.model.mood.MoodEntry;
-import com.example.mentalhealthapp.repository.Database.MoodDatabase;
 import com.example.mentalhealthapp.repository.MoodRepository;
 
 import java.util.List;

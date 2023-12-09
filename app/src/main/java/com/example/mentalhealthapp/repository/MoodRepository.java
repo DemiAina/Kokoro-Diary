@@ -1,7 +1,6 @@
 package com.example.mentalhealthapp.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
