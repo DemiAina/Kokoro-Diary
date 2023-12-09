@@ -3,15 +3,12 @@ package com.example.mentalhealthapp.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.mentalhealthapp.R;
+import com.example.mentalhealthapp.ui.Journal.fragments.JournalFragment;
 import com.example.mentalhealthapp.ui.moodtracking.fragments.moodTrackingFragment;
-import com.example.mentalhealthapp.ui.onboarding.components.activity.OnboardingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
             }
         );
+
+        CardView journalCard = findViewById(R.id.journal_card);
+        journalCard.setOnClickListener(v -> {
+            findViewById(R.id.main_acc).setVisibility(View.GONE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.journal_layout, new JournalFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
     }
     @Override
     public void onBackPressed() {
