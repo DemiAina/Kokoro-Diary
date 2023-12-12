@@ -43,6 +43,22 @@ public class moodTrackingFragment extends Fragment {
             backToMainActivity();
         });
 
+        CardView okMoodCard = view.findViewById(R.id.ok_card);
+        okMoodCard.setOnClickListener(v -> {
+
+            viewModel.selectMood(Mood.OK);
+            Toast.makeText(getContext(), "Mood saved as ok", Toast.LENGTH_SHORT).show();
+            backToMainActivity();
+        });
+
+        CardView sadMoodCard = view.findViewById(R.id.sad_card);
+
+        sadMoodCard.setOnClickListener(v -> {
+            viewModel.selectMood(Mood.SAD);
+            Toast.makeText(getContext(), "Mood saved as sad", Toast.LENGTH_SHORT).show();
+            backToMainActivity();
+        });
+
     }
     private void backToMainActivity(){
         Intent intent = new Intent(getActivity(), MainActivity.class);

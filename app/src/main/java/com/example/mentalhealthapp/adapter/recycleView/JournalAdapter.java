@@ -18,6 +18,7 @@ import java.util.List;
 
 public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalViewHolder> {
     private List<JournalEntry> entries = new ArrayList<>();
+    private OnItemClickListener listener;
 
     @NonNull
     @Override
@@ -43,14 +44,36 @@ public class JournalAdapter extends RecyclerView.Adapter<JournalAdapter.JournalV
         notifyDataSetChanged();
     }
 
+    public JournalEntry getNoteAt(int position) {
+        return entries.get(position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(JournalEntry entry);
+    }
+
     class JournalViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewTitle;
         private TextView contentSnippet;
+
         //TODO : Might need to add the time stamp
         public JournalViewHolder(View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.journal_entry_title);
-            contentSnippet = itemView.findViewById(R.id.journal_entry_snippet);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(entries.get(position));
+                    }
+                }
+            });
         }
     }
 }

@@ -26,6 +26,13 @@ public class journalViewModel extends AndroidViewModel {
         repository.insert(entry);
     }
 
+    public void delete(JournalEntry entry){
+        repository.delete(entry);
+    }
+
+    public void update(JournalEntry entry){
+        repository.update(entry);
+    }
     public LiveData<List<JournalEntry>> getAllJournalEntries(){return allJournalEntries;}
 
 }

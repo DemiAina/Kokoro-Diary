@@ -16,4 +16,7 @@ public interface MoodDAO {
 
     @Query("SELECT * FROM moods")
     LiveData<List<MoodEntry>> getAllMoods();
+
+    @Query("SELECT * FROM moods WHERE timestamp >= :dayStart AND timestamp <= :dayEnd")
+    LiveData<List<MoodEntry>> getMoodsForDay(long dayStart, long dayEnd);
 }
