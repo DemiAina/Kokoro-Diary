@@ -34,8 +34,8 @@ public class MoodRepository {
             moodDao.insert(moodEntry);
         });
     }
-    public void deleteAllMoods(){
-
+    public LiveData<List<MoodEntry>> getMoodsForDay(long dayStart, long dayEnd) {
+        return moodDao.getMoodsForDay(dayStart, dayEnd);
     }
     public LiveData<List<MoodEntry>> getAllMoods(){
         return  allMoods;

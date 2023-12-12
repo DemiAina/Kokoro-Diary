@@ -33,6 +33,18 @@ public class JournalRepository {
         });
     }
 
+    public void delete(JournalEntry journalEntry){
+        executorService.execute(()->{
+            journalDAO.delete(journalEntry);
+        });
+    }
+
+    public void  update(JournalEntry journalEntry){
+        executorService.execute(() ->{
+            journalDAO.update(journalEntry);
+        });
+    }
+
     public LiveData<List<JournalEntry>> getAllJournalEntries(){return allJournalEntries;}
 
 }
