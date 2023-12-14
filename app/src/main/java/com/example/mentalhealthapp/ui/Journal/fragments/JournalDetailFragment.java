@@ -53,7 +53,7 @@ public class JournalDetailFragment extends Fragment {
             String updatedContent = contentEditText.getText().toString();
             int entryId = getArguments().getInt("entry_id");
             updateJournalEntry(entryId, updatedTitle, updatedContent);
-            Toast.makeText(getContext(), "Journal entry deleted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Journal entry updated", Toast.LENGTH_SHORT).show();
             getParentFragmentManager().popBackStack();
         });
 

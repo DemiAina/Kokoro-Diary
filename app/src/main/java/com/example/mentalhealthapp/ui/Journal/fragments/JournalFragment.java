@@ -37,6 +37,7 @@ public class JournalFragment extends Fragment {
         View view = inflater.inflate(R.layout.journal_layout, container, false);
         journalViewModel = new ViewModelProvider(requireActivity()).get(journalViewModel.class);
 
+
         RecyclerView recyclerView = view.findViewById(R.id.journal_entries_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final JournalAdapter adapter = new JournalAdapter();
@@ -69,6 +70,7 @@ public class JournalFragment extends Fragment {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.remove(this);
                 transaction.replace(R.id.journal_detail, journalDetailFragment);
+                transaction.setReorderingAllowed(true);
                 transaction.addToBackStack(null);
                 transaction.commit();
         });
@@ -99,7 +101,6 @@ public class JournalFragment extends Fragment {
 
     private void saveJournalEntry(String title, String content) {
         JournalEntry newEntry = new JournalEntry(title, content, System.currentTimeMillis());
-
         journalViewModel.insert(newEntry);
     }
 }

@@ -1,7 +1,9 @@
 package com.example.mentalhealthapp.ui;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.model.mood.MoodEntry;
+import com.example.mentalhealthapp.ui.Journal.fragments.JournalDetailFragment;
 import com.example.mentalhealthapp.ui.Journal.fragments.JournalFragment;
 import com.example.mentalhealthapp.ui.health.fragments.healthFragment;
 import com.example.mentalhealthapp.ui.moodtracking.fragments.moodTrackingFragment;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.main_acc).setVisibility(View.GONE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.mood_layout, new moodTrackingFragment())
+                    .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
             }
@@ -44,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.main_acc).setVisibility(View.GONE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.journal_layout, new JournalFragment())
+                    .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
         });
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.main_acc).setVisibility(View.GONE);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.excerise_layout, new healthFragment())
+                    .setReorderingAllowed(true)
                     .addToBackStack(null)
                     .commit();
 
@@ -60,6 +66,17 @@ public class MainActivity extends AppCompatActivity {
 
         moodViewModel.getAllMoods().observe(this, this::updateMoodScore);
 
+        if (savedInstanceState != null) {
+            boolean isMainAccVisible = savedInstanceState.getBoolean("MAIN_ACC_VISIBILITY", true);
+            findViewById(R.id.main_acc).setVisibility(isMainAccVisible ? View.VISIBLE : View.GONE);
+        }
+
+    }
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        boolean isMainAccVisible = findViewById(R.id.main_acc).getVisibility() == View.VISIBLE;
+        outState.putBoolean("MAIN_ACC_VISIBILITY", isMainAccVisible);
     }
 
     private void updateMoodScore(List <MoodEntry> moodEntries) {
@@ -102,11 +119,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.journal_detail);
+
+        if (currentFragment instanceof JournalFragment || currentFragment instanceof JournalDetailFragment) {
+            // When in a Journal fragment, hide main activity's content before popping
+            findViewById(R.id.main_acc).setVisibility(View.GONE);
+        }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
-            findViewById(R.id.main_acc).setVisibility(View.VISIBLE);
         } else {
-            super.onBackPressed();
+            // If back stack has only one entry, show main activity's content and pop
+            findViewById(R.id.main_acc).setVisibility(View.VISIBLE);
+            getSupportFragmentManager().popBackStack();
         }
     }
+
 }
